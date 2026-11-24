@@ -75,6 +75,13 @@ const main = async () => {
 
   // ---------- 3. 向量化 + 存储到 PG ----------
   const vectorStore = await PGVectorStore.initialize(embeddings, pgConfig)
+  //
+  /**
+   * 输出格式：[0] 长度=50：你好，我是 RAG 的四个步骤分别是什么？文本切分的作用是什么？RAG 是四个步骤：加载文档、切分文档、向量化文档、检索文档
+   * 输出格式：[1] 长度=50：xxxx
+   * 输出格式：[2] 长度=50：xxxxx
+   * 输出格式：[3] 长度=50：xxxx
+   */
   await vectorStore.delete({ filter: {} }) // 清空演示表，重复运行也不会积累重复数据
   await vectorStore.addDocuments(chunks.map(text => new Document({ pageContent: text })))
   console.log('已入库片段数：', chunks.length)
